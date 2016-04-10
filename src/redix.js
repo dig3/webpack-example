@@ -1,56 +1,59 @@
-module.exports.createStore = function (reducer, initialState) {
-  var currentReducer = reducer;
-  var currentState = initialState;
-  var listeners = [];
+export function createStore(reducer, initialState) {
+  let currentReducer = reducer
+  let currentState = initialState
+  let listeners = []
 
-  var store = {
-    getState: function () {
-      return currentState;
+  let store = {
+    getState() {
+      return currentState
     },
 
-    dispatch: function (action) {
-      console.log('Dispatching:', action.type ,', action:', action);
-      currentState = reducer(currentState, action);
+    dispatch(action) {
+      console.log(`Dispatching: ${action.type}, action:`, action)
+      currentState = reducer(currentState, action)
 
-      for (var i in listeners) {
-        listeners[i]();
+      for (let listener of listeners) {
+        listener()
       }
 
-      return action;
+      return action
     },
 
-    subscribe: function (listener) {
-      var isSubscribed = true;
+    subscribe(listener) {
+      let isSubscribed = true
 
-      listeners.push(listener);
+      listeners.push(listener)
 
       return function unsubscribe() {
         if (!isSubscribed) {
-          return;
+          return
         }
 
-        isSubscribed = false;
+        isSubscribed = false
 
-        var index = listeners.indexOf(listener);
-        listener.splice(index, 1);
-      };
+        let index = listeners.indexOf(listener)
+        listener.splice(index, 1)
+      }
     }
-  };
+  }
 
   store.dispatch({
     type: '@@INIT'
-  });
+  })
 
-  return store;
-};
+  return store
+}
 
-module.exports.combineReducers = function (reducerObj) {
-  return function (state, action) {
-    var nextState = {};
-    for (var partial in reducerObj) {
-      nextState[partial] = reducerObj[partial](state[partial], action);
+export function combineReducers(reducerObj) {
+  return (state, action) => {
+    let nextState = {}
+    for (let partial in reducerObj) {
+      nextState = {
+        ...nextState,
+        [partial]: reducerObj[partial](state[partial], action)
+      }
     }
 
-    return nextState;
-  };
-};
+    return nextState
+  }
+}
