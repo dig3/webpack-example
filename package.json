@@ -5,11 +5,13 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "$(npm bin)/webpack"
+    "build": "$(npm bin)/webpack",
+    "dev": "$(npm bin)/webpack-dev-server --inline --hot --no-info --history-api-fallback --content-base dist/"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   }
 }
