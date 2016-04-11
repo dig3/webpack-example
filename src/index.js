@@ -1,5 +1,9 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import { createStore } from './redix';
+import { createStore } from './redix'
+import { Provider, connect } from './react-redix'
+import Counter from './Counter'
 
 function reducer(state = 0, action) {
   switch (action.type) {
@@ -14,23 +18,16 @@ function reducer(state = 0, action) {
 
 let store = createStore(reducer)
 
-let incrementButton = document.getElementById('increment')
-incrementButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  store.dispatch({
-    type: 'INCREMENT'
-  })
-})
+const ConnectedCounter = connect((state) => ({
+  counter: state
+}), (dispatch) => ({
+  increment: () => dispatch({type: 'INCREMENT'}),
+  decrement: () => dispatch({type: 'DECREMENT'})
+}))(Counter)
 
-let decrementButton = document.getElementById('decrement')
-decrementButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  store.dispatch({
-    type: 'DECREMENT'
-  })
-})
-
-let counter = document.getElementById('counter')
-counter.innerHTML = store.getState()
-
-store.subscribe(() => counter.innerHTML = store.getState())
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedCounter />
+  </Provider>,
+  document.getElementById('app')
+)
