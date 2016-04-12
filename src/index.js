@@ -1,3 +1,4 @@
+/* globals document: true */
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -21,8 +22,8 @@ let store = createStore(reducer)
 const ConnectedCounter = connect((state) => ({
   counter: state
 }), (dispatch) => ({
-  increment: () => dispatch({type: 'INCREMENT'}),
-  decrement: () => dispatch({type: 'DECREMENT'})
+  increment: () => dispatch({ type: 'INCREMENT' }),
+  decrement: () => dispatch({ type: 'DECREMENT' })
 }))(Counter)
 
 ReactDOM.render(
