@@ -11,11 +11,13 @@ export function connect(mapStateToProps, mapDispatchToProps) {
 
       render() {
         const { getState, dispatch } = this.context.store
-        let mappedState = mapStateToProps(getState(), this.props)
-        let mappedDispatch = mapDispatchToProps(dispatch, this.props)
+        const mappedState = mapStateToProps(getState(), this.props)
+        const mappedDispatch = mapDispatchToProps(dispatch, this.props)
 
         return (
-          <WrappedComponent {...mappedState} {...mappedDispatch} {...this.props} />
+          <WrappedComponent {...mappedState} {...mappedDispatch}
+            {...this.props}
+          />
         )
       }
     }
@@ -47,4 +49,9 @@ export class Provider extends React.Component {
 
 Provider.childContextTypes = {
   store: React.PropTypes.object
+}
+
+Provider.propTypes = {
+  store: React.PropTypes.object.isRequired,
+  children: React.PropTypes.object.isRequired
 }

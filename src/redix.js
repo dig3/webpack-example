@@ -1,18 +1,16 @@
 export function createStore(reducer, initialState) {
-  let currentReducer = reducer
   let currentState = initialState
-  let listeners = []
+  const listeners = []
 
-  let store = {
+  const store = {
     getState() {
       return currentState
     },
 
     dispatch(action) {
-      console.log(`Dispatching: ${action.type}, action:`, action)
       currentState = reducer(currentState, action)
 
-      for (let listener of listeners) {
+      for (const listener of listeners) {
         listener()
       }
 
@@ -31,7 +29,7 @@ export function createStore(reducer, initialState) {
 
         isSubscribed = false
 
-        let index = listeners.indexOf(listener)
+        const index = listeners.indexOf(listener)
         listener.splice(index, 1)
       }
     }
@@ -47,10 +45,12 @@ export function createStore(reducer, initialState) {
 export function combineReducers(reducerObj) {
   return (state, action) => {
     let nextState = {}
-    for (let partial in reducerObj) {
-      nextState = {
-        ...nextState,
-        [partial]: reducerObj[partial](state[partial], action)
+    for (const partial in reducerObj) {
+      if ({}.hasOwnProperty.call(reducerObj, partial)) {
+        nextState = {
+          ...nextState,
+          [partial]: reducerObj[partial](state[partial], action)
+        }
       }
     }
 
