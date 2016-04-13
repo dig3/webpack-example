@@ -38,5 +38,6 @@ module.exports = {
       filename: 'vendor.js'
     }),
     new ExtractTextPlugin('styles.css')
-  ]
+  ],
+  devtool: 'source-map'
 };
