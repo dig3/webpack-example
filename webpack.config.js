@@ -4,8 +4,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   context: __dirname + "/src",
   entry: {
-    bundle: "./index",
-    vendor: ["react", "react-dom"]
+    bundle: ["bootstrap-loader", "./index"],
+    vendor: [
+      "react", "react-dom", "redux", "react-redux", "react-router", "react-router-redux"
+    ],
   },
   output: {
       path: __dirname + "/dist",
@@ -30,6 +32,12 @@ module.exports = {
         "style-loader",
         "css-loader!sass-loader"
       )
+    }, {
+      test: /\.(woff2?|svg)$/,
+      loader: "url?limit=10000"
+    }, {
+      test: /\.(ttf|eot)$/,
+      loader: "file"
     }]
   },
   plugins: [

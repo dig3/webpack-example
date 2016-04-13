@@ -1,34 +1,20 @@
 /* globals document: true */
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { Router, browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
 
-import { createStore } from './redix'
-import { Provider, connect } from './react-redix'
-import Counter from './Counter'
+import reducers from './reducers'
+import routes from './routes'
 
-function reducer(state = 0, action) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    default:
-      return state
-  }
-}
-
-let store = createStore(reducer)
-
-const ConnectedCounter = connect((state) => ({
-  counter: state
-}), (dispatch) => ({
-  increment: () => dispatch({ type: 'INCREMENT' }),
-  decrement: () => dispatch({ type: 'DECREMENT' })
-}))(Counter)
+const store = createStore(reducers)
+const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedCounter />
+    <Router history={history} routes={routes} />
   </Provider>,
   document.getElementById('app')
 )
