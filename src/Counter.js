@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './Counter.css'
+
 export default class Counter extends React.Component {
   handleIncrement(e) {
     const { increment } = this.props
@@ -16,10 +18,14 @@ export default class Counter extends React.Component {
   render() {
     const { counter } = this.props
     return (
-      <div>
+      <div className="counter">
         <span>counter: {counter}</span>
-        <button onClick={::this.handleIncrement}>+</button>
-        <button onClick={::this.handleDecrement}>-</button>
+        <button className="counter-button"
+          onClick={::this.handleIncrement}
+        >+</button>
+        <button className="counter-button"
+          onClick={::this.handleDecrement}
+        >-</button>
       </div>
     )
   }
