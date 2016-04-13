@@ -11,7 +11,8 @@ module.exports = {
   },
   output: {
       path: __dirname + "/dist",
-      filename: "[name].js"
+      filename: "[name].js",
+      chunkFilename: "[id].chunk.js"
   },
   module: {
     preLoaders: [{
