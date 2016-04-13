@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './Counter.css'
+import './Counter.scss'
 
 export default class Counter extends React.Component {
   handleIncrement(e) {
