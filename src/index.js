@@ -1,4 +1,4 @@
-/* globals document: true */
+/* globals document: true, $: true */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
@@ -18,3 +18,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 )
+
+$('#app').attr('data-tryo', 'works!')
