@@ -1,18 +1,19 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
   context: __dirname + "/src",
   entry: {
     bundle: ["bootstrap-loader", "./index"],
     vendor: [
-      "react", "react-dom", "redux", "react-redux", "react-router", "react-router-redux"
+      "react", "react-dom", "redux", "react-redux", "react-router", "react-router-redux", "jquery"
     ],
   },
   output: {
       path: __dirname + "/dist",
-      filename: "[name].js",
-      chunkFilename: "[id].chunk.js"
+      filename: "[name].[hash].js",
+      chunkFilename: "[id].chunk.[hash].js"
   },
   module: {
     preLoaders: [{
@@ -46,7 +47,18 @@ module.exports = {
       name: 'vendor',
       filename: 'vendor.js'
     }),
-    new ExtractTextPlugin('styles.css')
+    new ExtractTextPlugin('styles.css'),
+    new webpack.optimize.UglifyJsPlugin(),
+    new HtmlPlugin({
+      filename: 'index.html',
+      template: './index.ejs',
+      hash: true
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
+    })
   ],
   devtool: 'source-map'
 };
